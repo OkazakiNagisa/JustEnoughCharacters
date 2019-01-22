@@ -22,9 +22,11 @@ public class JechConfig {
     public static String[] listAdditionalString = new String[0];
     public static String[] listAdditionalRegExp = new String[0];
     public static String[] listAdditionalSuffix = new String[0];
+    public static String[] listAdditionalStrsKt = new String[0];
     public static String[] listDefaultString = new String[0];
     public static String[] listDefaultRegExp = new String[0];
     public static String[] listDefaultSuffix = new String[0];
+    public static String[] listDefaultStrsKt = new String[0];
     public static String[] listDumpClassFunc = new String[0];
     public static String[] listMethodBlacklist = new String[0];
     public static boolean enableRadicalMode = false;
@@ -82,9 +84,11 @@ public class JechConfig {
         LIST_ADDITIONAL_STRING,
         LIST_ADDITIONAL_REGEXP,
         LIST_ADDITIONAL_SUFFIX,
+        LIST_ADDITIONAL_STRSKT,
         LIST_DEFAULT_STRING,
         LIST_DEFAULT_REGEXP,
         LIST_DEFAULT_SUFFIX,
+        LIST_DEFAULT_STRSKT,
         LIST_DUMP_CLASS_FUNC,
         LIST_METHOD_BLACKLIST,
         ENABLE_RADICAL_MODE,
@@ -116,6 +120,10 @@ public class JechConfig {
                     return "Give a list of methods to transform, of which uses vanilla SuffixArray to match.\n" +
                             "The format is \"full.class.path$InnerClass:methodName\"\n" +
                             "This list will also contain data fetched from online record.";
+                case LIST_ADDITIONAL_STRSKT:
+                    return "Give a list of methods to transform, of which uses Kotlin Strings to match.\n" +
+                            "The format is \"full.class.path$InnerClass:methodName\"\n" +
+                            "This list will also contain data fetched from online record.";
                 case LIST_DEFAULT_STRING:
                     return "Default list of methods to transform, of which uses \"String.contains\" to match.\n" +
                             "This list is maintained by the mod and will have no effect if you change it.";
@@ -124,6 +132,9 @@ public class JechConfig {
                             "This list is maintained by the mod and will have no effect if you change it.";
                 case LIST_DEFAULT_SUFFIX:
                     return "Default list of methods to transform, of which uses vanilla SuffixArray to match.\n" +
+                            "This list is maintained by the mod and will have no effect if you change it.";
+                case LIST_DEFAULT_STRSKT:
+                    return "Default list of methods to transform, of which uses Kotlin Strings to match.\n" +
                             "This list is maintained by the mod and will have no effect if you change it.";
                 case LIST_DUMP_CLASS_FUNC:
                     return "Dump all the methods in this class into log. Format is \"full.class.Path$InnerClass\".";
@@ -168,11 +179,15 @@ public class JechConfig {
                     return Type.LIST_STRING;
                 case LIST_ADDITIONAL_SUFFIX:
                     return Type.LIST_STRING;
+                case LIST_ADDITIONAL_STRSKT:
+                    return Type.LIST_STRING;
                 case LIST_DEFAULT_STRING:
                     return Type.LIST_STRING;
                 case LIST_DEFAULT_REGEXP:
                     return Type.LIST_STRING;
                 case LIST_DEFAULT_SUFFIX:
+                    return Type.LIST_STRING;
+                case LIST_DEFAULT_STRSKT:
                     return Type.LIST_STRING;
                 case LIST_DUMP_CLASS_FUNC:
                     return Type.LIST_STRING;
@@ -216,14 +231,17 @@ public class JechConfig {
                     return new String[0];
                 case LIST_ADDITIONAL_SUFFIX:
                     return new String[0];
+                case LIST_ADDITIONAL_STRSKT:
+                    return new String[0];
                 case LIST_DEFAULT_STRING:
                     return new String[]{
                             "mezz.jei.ItemFilter$FilterPredicate:stringContainsTokens",  // JEI legacy
                             "com.raoulvdberge.refinedstorage.gui.grid.filtering.GridFilterName:accepts",  // Refined Storage legpacy
                             "com.raoulvdberge.refinedstorage.gui.grid.filtering.GridFilterTooltip:accepts",  // Refined Storage legacy
+                            "com.raoulvdberge.refinedstorage.gui.grid.filtering.GridFilterMod:test",  // Refined Storage item mod name
                             "com.raoulvdberge.refinedstorage.gui.grid.filtering.GridFilterName:test",  // Refined Storage item name
+                            "com.raoulvdberge.refinedstorage.gui.grid.filtering.GridFilterOreDict:lambda$test$0",  // Refined Storage item oreDict
                             "com.raoulvdberge.refinedstorage.gui.grid.filtering.GridFilterTooltip:test",  // Refined Storage item tooltip
-                            // TODO Refined Storage needs update
                             "com.rwtema.extrautils2.transfernodes.TileIndexer$ContainerIndexer$WidgetItemRefButton:lambda$getRef$0",  // Extra Utilities indexer
                             "crazypants.enderio.machine.invpanel.client.ItemFilter$ModFilter:matches",  // EnderIO inventory panel item mod
                             "crazypants.enderio.machine.invpanel.client.ItemFilter$NameFilter:matches",  // EnderIO inventory panel item name
@@ -236,8 +254,10 @@ public class JechConfig {
                             "io.github.elytra.copo.inventory.ContainerTerminal:updateSlots",  // Correlated legacy
                             "net.minecraft.client.gui.inventory.GuiContainerCreative:updateFilteredItems",  // vanilla creative search legacy
                             "bmp:updateFilteredItems",  // vanilla creative search legacy
-                            "appeng.client.gui.implementation.GuiInterfaceTerminal:refreshList",  // Applied Energistics terminal interface
-                            "appeng.client.gui.implementation.GuiInterfaceTerminal:itemStackMatchesSearchTerm",  // Applied Energistics terminal interface
+                            "appeng.client.gui.implementation.GuiInterfaceTerminal:refreshList",  // Applied Energistics terminal interface legacy
+                            "appeng.client.gui.implementation.GuiInterfaceTerminal:itemStackMatchesSearchTerm",  // Applied Energistics terminal interface legacy
+                            "appeng.client.gui.implementations.GuiInterfaceTerminal:refreshList",  // Applied Energistics terminal interface
+                            "appeng.client.gui.implementations.GuiInterfaceTerminal:itemStackMatchesSearchTerm",  // Applied Energistics terminal interface
                             "pers.towdium.just_enough_calculation.gui.guis.GuiPicker:updateLayout",  // JustEnoughCalculation legacy
                             "io.github.elytra.correlated.inventory.ContainerTerminal:updateSlots",  // Correlated legacy
                             "com.elytradev.correlated.inventory.ContainerTerminal:updateSlots",  // Correlated legacy
@@ -254,7 +274,8 @@ public class JechConfig {
                             "mcjty.rftools.blocks.storage.GuiModularStorage:updateList",  // RFTools modular storage
                             "mcjty.rftools.blocks.shaper.LocatorTileEntity:checkFilter",  // RFTools unknown
                             "mcjty.rftools.items.netmonitor.GuiNetworkMonitor:populateList",  // RFTools network monitor
-                            "moze_intel.projecte.utils.ItemSearchHelper$DefaultSearch:doesItemMatchFilter_",  // ProjectE item search
+                            "moze_intel.projecte.gameObjs.container.inventory.TransmutationInventory:doesItemMatchFilter",  // ProjectE item search
+                            "moze_intel.projecte.utils.ItemSearchHelper$DefaultSearch:doesItemMatchFilter_",  // ProjectE legacy
                             "org.cyclops.integrateddynamics.core.client.gui.GuiTextFieldDropdown:func_146201_a",
                             "blusunrize.immersiveengineering.api.ManualPageBlueprint:listForSearch",  // Immersive Engineering manual
                             "blusunrize.lib.manual.ManualPages$Crafting:listForSearch",  // Immersive Engineering manual
@@ -272,11 +293,14 @@ public class JechConfig {
                             "vswe.stevesfactory.components.ComponentMenuItem:updateSearch",  // Steve's Factory Manager item search
                             "com.mia.props.client.container.GuiDecobench:refreshButtons",  // Decofraft workbench
                             "mrriegel.storagenetwork.gui.GuiRequest:match",  // Storage Network
-                            "vazkii.quark.client.feature.ChestSearchBar:lambda$namesMatch$0"  // quark chest
+                            "vazkii.quark.client.feature.ChestSearchBar:lambda$namesMatch$0",  // quark chest
+                            "logisticspipes.gui.orderer.GuiOrderer:isSearched",  // logistics pipes orderer
+                            "logisticspipes.gui.orderer.GuiRequestTable:isSearched"  //logistics pipes request table
                     };
                 case LIST_DEFAULT_REGEXP:
                     return new String[]{
-                            "appeng.client.me.ItemRepo:updateView",  // Applied Energistics
+                            "appeng.client.me.FluidRepo:updateView",  // Applied Energistics fluid search
+                            "appeng.client.me.ItemRepo:updateView",  // Applied Energistics item search
                             "codechicken.nei.ItemList$PatternItemFilter:matches",  // NEI item list legacy
                             "codechicken.nei.util.ItemList$PatternItemFilter:matches",  // NEI item list
                             "org.cyclops.integrateddynamics.core.inventory.container.ContainerMultipartAspects$1:apply",
@@ -291,6 +315,10 @@ public class JechConfig {
                             "cgw:<init>",  // vanilla search notch name
                             "cgw:a",  // vanilla search notch name
                             "buildcraft.lib.client.guide.GuideManager:generateContentsPage"  // BuildCraft manual
+                    };
+                case LIST_DEFAULT_STRSKT:
+                    return new String[]{
+                            "com.cout970.magneticraft.features.multiblocks.ContainerShelvingUnit:filterSlots"  // Magneticraft shelving unit
                     };
                 case LIST_DUMP_CLASS_FUNC:
                     return new String[0];
@@ -337,6 +365,9 @@ public class JechConfig {
                 case LIST_ADDITIONAL_SUFFIX:
                     listAdditionalSuffix = getProperty().getStringList();
                     break;
+                case LIST_ADDITIONAL_STRSKT:
+                    listAdditionalStrsKt = getProperty().getStringList();
+                    break;
                 case LIST_DEFAULT_STRING:
                     listDefaultString = getProperty().getStringList();
                     break;
@@ -345,6 +376,9 @@ public class JechConfig {
                     break;
                 case LIST_DEFAULT_SUFFIX:
                     listDefaultSuffix = getProperty().getStringList();
+                    break;
+                case LIST_DEFAULT_STRSKT:
+                    listDefaultStrsKt = getProperty().getStringList();
                     break;
                 case LIST_DUMP_CLASS_FUNC:
                     listDumpClassFunc = getProperty().getStringList();
@@ -397,9 +431,11 @@ public class JechConfig {
                 case LIST_ADDITIONAL_STRING:
                 case LIST_ADDITIONAL_REGEXP:
                 case LIST_ADDITIONAL_SUFFIX:
+                case LIST_ADDITIONAL_STRSKT:
                 case LIST_DEFAULT_STRING:
                 case LIST_DEFAULT_REGEXP:
                 case LIST_DEFAULT_SUFFIX:
+                case LIST_DEFAULT_STRSKT:
                 case LIST_METHOD_BLACKLIST:
                     return Category.TRANSFORM;
                 case ENABLE_FUZZY_ZH2Z:
@@ -425,14 +461,14 @@ public class JechConfig {
         @SuppressWarnings("UnusedReturnValue")
         public Property init() {
 
-                switch (this.getType()) {
-                    case BOOLEAN:
-                        return config.get(getCategory().toString(), toString(), (Boolean) getDefault(), getComment());
-                    case LIST_STRING:
-                        return config.get(getCategory().toString(), toString(), (String[]) getDefault(), getComment());
-                    case INTEGER:
-                        return config.get(getCategory().toString(), toString(), (int) getDefault(), getComment());
-                }
+            switch (this.getType()) {
+                case BOOLEAN:
+                    return config.get(getCategory().toString(), toString(), (Boolean) getDefault(), getComment());
+                case LIST_STRING:
+                    return config.get(getCategory().toString(), toString(), (String[]) getDefault(), getComment());
+                case INTEGER:
+                    return config.get(getCategory().toString(), toString(), (int) getDefault(), getComment());
+            }
             throw new RuntimeException("Internal error.");
         }
 
